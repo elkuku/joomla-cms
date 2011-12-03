@@ -216,6 +216,24 @@ class JApplication extends JObject
 			$config->set('language', $options['language']);
 		}
 
+		jimport('g11n.language');
+
+		try
+		{
+			// Debug setting from configuration.php
+			g11n::setDebug($this->getCfg('debug_lang'));
+
+			// Custom language folder name
+			g11nExtensionHelper::setDirName('language');
+			
+			// Load Joomla! core ini
+			g11n::loadLanguage('joomla', '', 'ini');
+		}
+		catch (Exception $e)
+		{
+			echo $e->getMessage();
+		}
+		
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));

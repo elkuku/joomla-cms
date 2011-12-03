@@ -130,6 +130,9 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
+		// g11n CHANGE
+		return jgettext($string);
+
 		$lang = JFactory::getLanguage();
 		if (is_array($jsSafe))
 		{
@@ -219,6 +222,18 @@ class JText
 	 */
 	public static function plural($string, $n)
 	{
+		// CHANGE g11n START
+
+		if( ! $n)//-- The '0'
+		return jgettext($string.'_0');
+
+		$singular = jgettext($string.'_1');
+		$plural = jgettext($string.'_MORE');
+
+		return sprintf(jngettext($singular, $plural, $n), $n);
+
+		// CHANGE g11n END
+
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
@@ -294,6 +309,16 @@ class JText
 	 */
 	public static function sprintf($string)
 	{
+		// CHANGE g11n START
+
+		$args = func_get_args();
+
+		$args[0] = jgettext($string);
+
+		return call_user_func_array('sprintf', $args);
+
+		// CHANGE g11n END
+
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
@@ -334,6 +359,16 @@ class JText
 	 */
 	public static function printf($string)
 	{
+		// CHANGE g11n START
+
+		$args = func_get_args();
+
+		$args[0] = jgettext($string);
+
+		return call_user_func_array('printf', $args);
+
+		// CHANGE g11n END
+
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
