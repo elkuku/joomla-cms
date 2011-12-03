@@ -324,6 +324,17 @@ class plgSystemDebug extends JPlugin
 				}
 				echo '</pre>';
 			}
+
+			// CHANGE g11n START
+
+			if(class_exists('g11n'))
+			{
+				g11n::debugPrintTranslateds();
+				g11n::printEvents();
+			}
+
+			// CHANGE g11n START
+
 		}
 
 		echo '</div>';
