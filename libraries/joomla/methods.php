@@ -130,8 +130,11 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		// g11n CHANGE
+		// CHANGE g11n START
+
 		return jgettext($string);
+
+		// CHANGE g11n END
 
 		$lang = JFactory::getLanguage();
 		if (is_array($jsSafe))

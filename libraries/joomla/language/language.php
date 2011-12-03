@@ -174,8 +174,11 @@ class JLanguage extends JObject
 		$this->setLanguage($lang);
 		$this->setDebug($debug);
 		
-		// Change g11n - @todo implement the rest of what is done here - maybe =;)
+		// CHANGE g11n START
+		// @todo implement the rest of what is done here - maybe =;)
 		return;
+
+		// CHANGE g11n END
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
 
@@ -717,7 +720,8 @@ class JLanguage extends JObject
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
-		// Change g11n
+		// CHANGE g11n START
+
 		try
 		{
 			g11n::loadLanguage($extension, '', 'ini');
@@ -736,7 +740,9 @@ class JLanguage extends JObject
 
 		// We're done !
 		return;
-	
+
+		// CHANGE g11n END
+
 		
 		if (!$lang)
 		{

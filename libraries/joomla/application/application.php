@@ -216,6 +216,8 @@ class JApplication extends JObject
 			$config->set('language', $options['language']);
 		}
 
+		// CHANGE g11n START
+
 		jimport('g11n.language');
 
 		try
@@ -234,6 +236,8 @@ class JApplication extends JObject
 			echo $e->getMessage();
 		}
 		
+		// CHANGE g11n END
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));
