@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,7 +168,7 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -213,26 +213,23 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	function getProfile($userId = 0)
+	public function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-		else
-		{
-			$user = JFactory::getUser((int) $userId);
+			$user	= JFactory::getUser();
+			$userId	= $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}

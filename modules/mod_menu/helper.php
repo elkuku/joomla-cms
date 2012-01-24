@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,8 +45,7 @@ class modMenuHelper
 			$start		= (int) $params->get('startLevel');
 			$end		= (int) $params->get('endLevel');
 			$showAll	= $params->get('showAllChildren');
-			$maxdepth	= $params->get('maxdepth');
-			$items 		= $menu->getItems('menutype',$params->get('menutype'));
+			$items 		= $menu->getItems('menutype', $params->get('menutype'));
 
 			$lastitem	= 0;
 
@@ -57,7 +55,6 @@ class modMenuHelper
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($maxdepth && $item->level > $maxdepth)
 						|| ($start > 1 && !in_array($item->tree[$start-2], $path))
 					) {
 						unset($items[$i]);

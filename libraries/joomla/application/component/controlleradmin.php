@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,7 +98,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
@@ -155,12 +155,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		$session = JFactory::getSession();
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');

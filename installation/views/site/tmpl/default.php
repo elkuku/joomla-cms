@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +64,14 @@ defined('_JEXEC') or die;
 									</td>
 									<td>
 										<?php echo $this->form->getInput('site_metakeys'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td title="<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>">
+										<?php echo $this->form->getLabel('site_offline'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_offline'); ?>
 									</td>
 								</tr>
 							</table>

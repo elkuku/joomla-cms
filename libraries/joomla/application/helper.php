@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,6 +23,15 @@ class JApplicationHelper
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected static $clients = null;
+
+	/**
+	 * Client information array
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $clientsor declare as private
 	 */
 	protected static $_clients = null;
 

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +30,16 @@ class JInstallationControllerSetup extends JController
 		// Get the application object.
 		$app = JFactory::getApplication();
 
+		// Very crude workaround to give an error message when JSON is disabled
+		if (!function_exists('json_encode') || !function_exists('json_decode'))
+		{
+			JResponse::setHeader('status', 500);
+			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
+			JResponse::sendHeaders();
+			echo '{"token":"'.JSession::getFormToken(true).'","lang":"'.JFactory::getLanguage()->getTag().'","error":true,"header":"'.JText::_('INSTL_HEADER_ERROR').'","message":"'.JText::_('INSTL_WARNJSON').'"}';
+			$app->close();
+		}
+
 		// Check for potentially unwritable session
 		$session = JFactory::getSession();
 
@@ -54,7 +63,7 @@ class JInstallationControllerSetup extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -106,7 +115,7 @@ class JInstallationControllerSetup extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -174,7 +183,7 @@ class JInstallationControllerSetup extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -229,7 +238,7 @@ class JInstallationControllerSetup extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i])) {
+				if ($errors[$i] instanceof Exception) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -472,7 +481,7 @@ class JInstallationControllerSetup extends JController
 	public function sendResponse($response)
 	{
 		// Check if we need to send an error code.
-		if (JError::isError($response)) {
+		if ($response instanceof Exception) {
 			// Send the appropriate error code response.
 			JResponse::setHeader('status', $response->getCode());
 			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -499,7 +508,7 @@ class JInstallationJsonResponse
 	function __construct($state)
 	{
 		// The old token is invalid so send a new one.
-		$this->token = JUtility::getToken(true);
+		$this->token = JSession::getFormToken(true);
 
 		// Get the language and send it's code along
 		$lang = JFactory::getLanguage();
@@ -524,7 +533,7 @@ class JInstallationJsonResponse
 		}
 
 		// Check if we are dealing with an error.
-		if (JError::isError($state)) {
+		if ($state instanceof Exception) {
 			// Prepare the error response.
 			$this->error	= true;
 			$this->header	= JText::_('INSTL_HEADER_ERROR');

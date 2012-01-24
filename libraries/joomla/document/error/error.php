@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JDocumentError extends JDocument
 	 * @var    object
 	 * @since  11.1
 	 */
-	var $_error;
+	protected $_error;
 
 	/**
 	 * Class constructor
@@ -55,7 +55,7 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if (JError::isError($error))
+		if ($error instanceof Exception)
 		{
 			$this->_error = & $error;
 			return true;
@@ -120,7 +120,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
@@ -147,7 +147,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function renderBacktrace()
+	public function renderBacktrace()
 	{
 		$contents = null;
 		$backtrace = $this->_error->getTrace();

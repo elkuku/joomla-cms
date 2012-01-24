@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,7 @@ abstract class JHtmlTabs
 			$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
 			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
 			$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null;
+			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
 			$opt['titleSelector'] = "'dt.tabs'";
 			$opt['descriptionSelector'] = "'dd.tabs'";
 

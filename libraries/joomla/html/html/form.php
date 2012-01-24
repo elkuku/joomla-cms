@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,6 @@ abstract class JHtmlForm
 	 */
 	public static function token()
 	{
-		return '<input type="hidden" name="' . JUtility::getToken() . '" value="1" />';
+		return '<input type="hidden" name="' . JSession::getFormToken() . '" value="1" />';
 	}
 }

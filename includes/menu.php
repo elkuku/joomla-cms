@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +25,7 @@ class JMenuSite extends JMenu
 	{
 		// Initialise variables.
 		$db		= JFactory::getDbo();
-		$app	= JFactory::getApplication();
+		$app	= JApplication::getInstance('site');
 		$query	= $db->getQuery(true);
 
 		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language');
@@ -78,7 +77,7 @@ class JMenuSite extends JMenu
 	{
 		$attributes = (array) $attributes;
 		$values 	= (array) $values;
-		$app		= JFactory::getApplication();
+		$app		= JApplication::getInstance('site');
 
 		if ($app->isSite())
 		{
@@ -123,7 +122,7 @@ class JMenuSite extends JMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && JFactory::getApplication()->getLanguageFilter()) {
+		if (array_key_exists($language, $this->_default) && JApplication::getInstance('site')->getLanguageFilter()) {
 			return $this->_items[$this->_default[$language]];
 		}
 		elseif (array_key_exists('*', $this->_default)) {
