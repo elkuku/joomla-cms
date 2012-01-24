@@ -152,6 +152,8 @@ class plgSystemDebug extends JPlugin
 
 		if (JFactory::getApplication()->getCfg('debug_lang'))
 		{
+			$html .= $this->display('g11n');
+
 			if ($this->params->get('language_errorfiles', 1))
 			{
 				$languageErrors = JFactory::getLanguage()->getErrorFiles();
@@ -545,6 +547,23 @@ class plgSystemDebug extends JPlugin
 		return $html;
 	}
 
+	protected function displayg11n()
+	{
+		// CHANGE g11n START
+
+		if(class_exists('g11n'))
+		{
+			ob_start();
+			g11n::debugPrintTranslateds();
+			g11n::printEvents();
+			$g11nContents = ob_get_clean();
+		}
+
+		return $g11nContents;
+
+		// CHANGE g11n START
+	}
+
 	/**
 	 * Display untranslated language strings.
 	 *
@@ -732,17 +751,6 @@ class plgSystemDebug extends JPlugin
 				$html .= '</tr>';
 				$j++;
 			}
-
-			// CHANGE g11n START
-
-			if(class_exists('g11n'))
-			{
-				g11n::debugPrintTranslateds();
-				g11n::printEvents();
-			}
-
-			// CHANGE g11n START
-
 		}
 
 		return $html;
