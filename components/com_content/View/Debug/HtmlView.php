@@ -167,6 +167,8 @@ class HtmlView extends BaseHtmlView
 		$totalQueries = $this->reports['queries']['count'] ?? 0;
 		$timings    = $this->reports['queries']['timings'] ?? [];
 		$callStacks = $this->reports['queries']['stacks'] ?? [];
+		$profiles = $this->reports['queries']['profiles'] ?? [];
+		$explains = $this->reports['queries']['explains'] ?? [];
 		$prefix = $this->reports['queries']['prefix'] ?? '';
 
 		$selectQueryTypeTicker = array();
@@ -229,9 +231,9 @@ class HtmlView extends BaseHtmlView
 				$hasWarnings          = false;
 				$hasWarningsInProfile = false;
 
-				if (isset($this->explains[$id]))
+				if (isset($explains[$id]))
 				{
-					$explain = ContentHTML::tableToHtml($this->explains[$id], $hasWarnings);
+					$explain = ContentHTML::tableToHtml($explains[$id], $hasWarnings);
 				}
 				else
 				{
@@ -241,10 +243,9 @@ class HtmlView extends BaseHtmlView
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (isset($this->sqlShowProfileEach[$id]) && $this->db->getServerType() === 'mysql')
+				if (isset($profiles[$id]))
 				{
-					$profileTable = $this->sqlShowProfileEach[$id];
-					$profile      = ContentHTML::tableToHtml($profileTable, $hasWarningsInProfile);
+					$profile = ContentHTML::tableToHtml($profiles[$id], $hasWarningsInProfile);
 				}
 
 				// How heavy should the string length count: 0 - 1.
