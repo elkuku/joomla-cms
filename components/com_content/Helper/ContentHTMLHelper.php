@@ -15,13 +15,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/**
+ * Content Component HTML Helper
+ *
+ * @since  1.5
+ */
 class ContentHTMLHelper
 {
 	/**
 	 * Simple highlight for SQL queries.
 	 *
-	 * @param   string $query  The query to highlight.
-	 * @param   string $prefix The current table prefix.
+	 * @param   string  $query   The query to highlight.
+	 * @param   string  $prefix  The current table prefix.
 	 *
 	 * @return  string
 	 *
@@ -58,7 +63,7 @@ class ContentHTMLHelper
 	/**
 	 * Renders call stack and back trace in HTML.
 	 *
-	 * @param   array $callStack The call stack and back trace array.
+	 * @param   array  $callStack  The call stack and back trace array.
 	 *
 	 * @return  string  The call stack and back trace in HMTL format.
 	 *
@@ -345,8 +350,8 @@ class ContentHTMLHelper
 	 * Formats a link with a special value xdebug.file_link_format
 	 * from the php.ini file.
 	 *
-	 * @param   string $file The full path to the file.
-	 * @param   string $line The line number.
+	 * @param   string  $file  The full path to the file.
+	 * @param   string  $line  The line number.
 	 *
 	 * @return  string
 	 *

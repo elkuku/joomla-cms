@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 <?php foreach ($this->data as $file => $strings): ?>
 ## <?php echo HTMLHelper::_('debug.xdebuglink', $file) . PHP_EOL?>
 <?php foreach ($strings as $string): ?>
-<?php echo $string  . PHP_EOL?>
+<?php echo $string . PHP_EOL?>
 <?php endforeach; ?>
 <?php echo PHP_EOL ?>
 <?php endforeach; ?>

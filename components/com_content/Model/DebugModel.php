@@ -12,19 +12,21 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\ItemModel;
 
 /**
  * Content Component Debug Model
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class DebugModel extends ItemModel
 {
 	/**
 	 * Model context string.
 	 *
-	 * @var string
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $_context = 'com_content.debug';
 
@@ -33,13 +35,13 @@ class DebugModel extends ItemModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since  1.6
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return void
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$id = $app->input->get('id');
@@ -53,7 +55,9 @@ class DebugModel extends ItemModel
 	/**
 	 * Method to get reports data.
 	 *
-	 * @param   integer $id The id of the report.
+	 * @param   integer  $id  The id of the report.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 *
 	 * @return  object|boolean  Menu item data object on success, boolean false
 	 */

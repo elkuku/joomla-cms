@@ -642,10 +642,12 @@ class HtmlView extends BaseHtmlView
 
 		$totalTime = 0;
 
-//		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
-//		{
-//			$totalTime += $mark->time;
-//		}
+		/*
+		foreach (Profiler::getInstance('Application')->getMarks() as $mark)
+		{
+			$totalTime += $mark->time;
+		}
+		*/
 
 		if ($totalQueryTime > ($totalTime * 0.25))
 		{
