@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 /**
  * HTML Article View class for the Content component
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
@@ -113,6 +113,9 @@ class HtmlView extends BaseHtmlView
 			case 'languageErrors':
 				$this->data = $this->getLanguageErrorReport($this->reports['languageErrors']['data'] ?? []);
 				break;
+			case 'languageStrings':
+				$this->data = $this->getLanguageStringsReport($this->reports['languageStrings']['data'] ?? []);
+				break;
 			case 'queries':
 				$this->data = $this->getDatabaseReport($this->reports['queries']['data'] ?? []);
 				break;
@@ -124,6 +127,92 @@ class HtmlView extends BaseHtmlView
 		return parent::display($tpl);
 	}
 
+	/**
+	 * Get Language strings report.
+	 *
+	 * @param   array  $orphans  Orphans
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function getLanguageStringsReport(array $orphans): array
+	{
+		$stripFirst = $this->pluginParameters->get('strip-first');
+		$stripPref = $this->pluginParameters->get('strip-prefix');
+		$stripSuff = $this->pluginParameters->get('strip-suffix');
+
+		if (!\count($orphans))
+		{
+			return [Text::_('JNONE')];
+		}
+
+		ksort($orphans, SORT_STRING);
+
+		$guesses = [];
+
+		foreach ($orphans as $key => $occurance)
+		{
+				if (!isset($guesses[$occurance]))
+				{
+					$guesses[$occurance] = [];
+				}
+
+				// Prepare the key.
+				if (strpos($key, '=') > 0)
+				{
+					$parts = explode('=', $key);
+					$key = $parts[0];
+					$guess = $parts[1];
+				}
+				else
+				{
+					$guess = str_replace('_', ' ', $key);
+
+					if ($stripFirst)
+					{
+						$parts = explode(' ', $guess);
+
+						if (\count($parts) > 1)
+						{
+							array_shift($parts);
+							$guess = implode(' ', $parts);
+						}
+					}
+
+					$guess = trim($guess);
+
+					if ($stripPref)
+					{
+						$guess = trim(preg_replace(\chr(1) . '^' . $stripPref . \chr(1) . 'i', '', $guess));
+					}
+
+					if ($stripSuff)
+					{
+						$guess = trim(preg_replace(\chr(1) . $stripSuff . '$' . \chr(1) . 'i', '', $guess));
+					}
+				}
+
+				$key = strtoupper(trim($key));
+				$key = preg_replace('#\s+#', '_', $key);
+				$key = preg_replace('#\W#', '', $key);
+
+				// Prepare the text.
+				$guesses[$occurance][] = $key . '="' . $guess . '"';
+		}
+
+		return $guesses;
+	}
+
+	/**
+	 * Get Language errors report.
+	 *
+	 * @param   array  $errors  Errors
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
 	private function getLanguageErrorReport(array $errors): array
 	{
 		$data = [];
@@ -748,57 +837,6 @@ class HtmlView extends BaseHtmlView
 		$html[] = ContentHTML::renderBars($barsMem, 'profile');
 
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
-
-		return $html;
-
-
-		// Fix for support custom shutdown function via register_shutdown_function().
-		// @todo review $this->db->disconnect();
-
-		$log = $this->queryMonitor->getLog();
-
-		if ($log)
-		{
-			$timings = $this->queryMonitor->getTimings();
-
-			if ($timings)
-			{
-				$totalQueryTime = 0.0;
-				$lastStart      = null;
-
-				foreach ($timings as $k => $v)
-				{
-					if (!($k % 2))
-					{
-						$lastStart = $v;
-					}
-					else
-					{
-						$totalQueryTime += $v - $lastStart;
-					}
-				}
-
-				$totalQueryTime *= 1000;
-
-				if ($totalQueryTime > ($totalTime * 0.25))
-				{
-					$labelClass = 'badge-danger';
-				}
-				elseif ($totalQueryTime < ($totalTime * 0.15))
-				{
-					$labelClass = 'badge-success';
-				}
-				else
-				{
-					$labelClass = 'badge-warning';
-				}
-
-				$html[] = '<br><div>' . Text::sprintf(
-						'PLG_DEBUG_QUERIES_TIME',
-						sprintf('<span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
-					) . '</div>';
-			}
-		}
 
 		return $html;
 	}
