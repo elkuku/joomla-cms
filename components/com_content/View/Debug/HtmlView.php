@@ -94,6 +94,7 @@ class HtmlView extends BaseHtmlView
 		$this->reports = $this->get('Reports');
 		$this->uri = Uri::getInstance();
 		$this->panel = Factory::getApplication()->input->get('panel', 'info');
+		$search = Factory::getApplication()->input->get('search');
 
 		if (isset($this->reports['__meta']))
 		{
@@ -108,20 +109,34 @@ class HtmlView extends BaseHtmlView
 		$lang->load('plg_system_debug', JPATH_ADMINISTRATOR, null, false, true)
 		|| $lang->load('plg_system_debug', JPATH_PLUGINS . '/system/debug', null, false, true);
 
-		switch ($this->panel)
+		if ($search)
 		{
-			case 'languageErrors':
-				$this->data = $this->getLanguageErrorReport($this->reports['languageErrors']['data'] ?? []);
-				break;
-			case 'languageStrings':
-				$this->data = $this->getLanguageStringsReport($this->reports['languageStrings']['data'] ?? []);
-				break;
-			case 'queries':
-				$this->data = $this->getDatabaseReport($this->reports['queries']['data'] ?? []);
-				break;
-			case 'profile':
-				$this->data = $this->getProfileReport($this->reports['profile']['rawMarks'] ?? []);
-				break;
+			switch ($search)
+			{
+				case 'lastTen':
+					$this->data = $this->get('lastTen');
+					break;
+			}
+
+			$this->setLayout('search');
+		}
+		else
+		{
+			switch ($this->panel)
+			{
+				case 'languageErrors':
+					$this->data = $this->getLanguageErrorReport($this->reports['languageErrors']['data'] ?? []);
+					break;
+				case 'languageStrings':
+					$this->data = $this->getLanguageStringsReport($this->reports['languageStrings']['data'] ?? []);
+					break;
+				case 'queries':
+					$this->data = $this->getDatabaseReport($this->reports['queries']['data'] ?? []);
+					break;
+				case 'profile':
+					$this->data = $this->getProfileReport($this->reports['profile']['rawMarks'] ?? []);
+					break;
+			}
 		}
 
 		return parent::display($tpl);

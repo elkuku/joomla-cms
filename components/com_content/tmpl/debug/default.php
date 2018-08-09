@@ -10,6 +10,11 @@
 ?>
 <div style="border: 1px solid red; padding: 5px;">
 
+    <div>
+        <a href="<?php echo $this->uri ?>">Current</a>
+        <a href="<?php echo $this->uri . '&search=lastTen'?>">Last 10</a>
+    </div>
+
     <div style="border: 1px solid green; padding: 5px;">
 
         <h1>! WIP ! Joomla! Debug ! WIP !</h1>

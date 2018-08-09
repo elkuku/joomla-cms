@@ -70,4 +70,45 @@ class DebugModel extends ItemModel
 
 		return json_decode(file_get_contents($path), true);
 	}
+
+	/**
+	 * Get the last ten emtries.
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getLastTen(): array
+	{
+		$data = [];
+		$path = Factory::getApplication()->get('tmp_path');
+
+		$files = Folder::files($path, '.json', false, true);
+
+		foreach ($files as $file)
+		{
+			$info = json_decode(file_get_contents($file), true);
+
+			if (isset($info['__meta']))
+			{
+				$data[] = $info['__meta'];
+			}
+		}
+
+		usort(
+			$data, function($aArr, $bArr) {
+				$a = $aArr['datetime'];
+				$b = $bArr['datetime'];
+
+				if ($a === $b)
+				{
+					return 0;
+				}
+
+				return $a > $b ? -1 : 1;
+			}
+		);
+
+		return $data;
+	}
 }
